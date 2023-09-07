@@ -1,38 +1,33 @@
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import Hero from "./components/Hero";
 import Services from "./components/Services";
 import Testimonial from "./components/Testimonial";
-import { useRef } from "react";
 
 function App() {
-  const servicesRef = useRef(null);
-  const aboutRef = useRef(null);
-
-  const scrollToSection = (ref) => {
-    window.scrollTo({
-      top: ref.current.offsetTop,
-      behavior: "smooth",
-    });
-  };
-
-  const handleScrollToServices = () => {
-    scrollToSection(servicesRef);
-  };
-
   return (
     <Router>
       <div className="App">
-        <Header
-          scrollToSection={scrollToSection}
-          servicesRef={servicesRef}
-          aboutRef={aboutRef}
-        />
-        <Hero />
-        <Services ref={servicesRef} id="services" />
-        <Testimonial />
+        <Header />
+        <div id="hero">
+          <Hero />
+        </div>
+        <div id="services" style={{ paddingTop: "80px" }}>
+          <Services />
+        </div>
+        <div id="testimonial" style={{ paddingTop: "80px" }}>
+          <Testimonial />
+        </div>
+        {/* <Switch>
+          <Route path="/" exact component={Hero} />
+          <Route path="/services" component={Services} />
+          <Route path="/services" component={Testimonial} />
+          
+          <Services />
+          <Testimonial />
+        </Switch> */}
         <Footer />
       </div>
     </Router>

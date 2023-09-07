@@ -1,21 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import { Fragment } from "react";
 import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link, NavLink } from "react-router-dom";
 
-const navigation = [
-  { name: "Home", href: "#hero", current: true },
-  { name: "About", href: "#about", current: false },
-  { name: "Services", href: "#services", current: false },
-  { name: "Contact", href: "#contact", current: false },
-];
+export default function Header() {
+  const navigation = [
+    { name: "Home", href: "#hero", current: true },
+    { name: "About", href: "#about", current: false },
+    { name: "Services", href: "#services", current: false },
+    { name: "Contact", href: "#contact", current: false },
+  ];
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
 
-export default function Header({ scrollToSection, servicesRef, aboutRef }) {
+  const [activeLink, setActiveLink] = useState(navigation[0].name);
+
+  function scrollToSection(e, name) {
+    e.preventDefault();
+    const targetId = e.target.getAttribute("href").substring(1); // Remove the "#" from the href
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      window.scrollTo({
+        top: targetElement.offsetTop,
+        behavior: "smooth",
+      });
+      setActiveLink(name); // Update the active link
+    }
+  }
+
   return (
     <Disclosure as="nav" className="sticky top-0 bg-white drop-shadow-md z-10">
       {({ open }) => (
@@ -50,29 +65,20 @@ export default function Header({ scrollToSection, servicesRef, aboutRef }) {
                 <div className="hidden sm:ml-6 sm:block md:flex flex-grow justify-center">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      // <a
-                      //   key={item.name}
-                      //   href={item.href}
-                      //   className={classNames(
-                      //     item.current
-                      //       ? "bg-gray-900 text-white"
-                      //       : "text-textColor hover:bg-gray-700 hover:text-white",
-                      //     "rounded-md px-3 py-2 text-sm font-medium"
-                      //   )}
-                      //   aria-current={item.current ? "page" : undefined}
-                      // >
-                      //   {item.name}
-                      // </a>
-                      <Link
+                      <a
                         key={item.name}
-                        to={item.href} // Specify the destination path
+                        href={item.href}
+                        onClick={(e) => scrollToSection(e, item.name)}
                         className={classNames(
-                          "text-textColor hover:bg-gray-700 hover:text-white",
+                          item.name === activeLink
+                            ? "bg-gray-900 text-white"
+                            : "text-textColor hover:bg-gray-700 hover:text-white",
                           "rounded-md px-3 py-2 text-sm font-medium"
                         )}
+                        aria-current={item.current ? "page" : undefined}
                       >
                         {item.name}
-                      </Link>
+                      </a>
                     ))}
                   </div>
                 </div>
@@ -87,8 +93,9 @@ export default function Header({ scrollToSection, servicesRef, aboutRef }) {
                   key={item.name}
                   as="a"
                   href={item.href}
+                  onClick={(e) => scrollToSection(e, item.name)}
                   className={classNames(
-                    item.current
+                    item.name === activeLink
                       ? "bg-gray-900 text-white"
                       : "text-gray-300 hover:bg-gray-700 hover:text-white",
                     "block rounded-md px-3 py-2 text-base font-medium"

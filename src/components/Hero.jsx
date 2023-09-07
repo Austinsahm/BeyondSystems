@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Hero() {
   return (
-    <div id="#hero" className="my-4 mx-10 lg:mx-24">
+    <div className="my-4 mx-10 lg:mx-24">
       <div className="flex flex-col-reverse md:grid md:grid-cols-2 md:gap-4">
         <div className="flex justify-center items-center">
           <div>
