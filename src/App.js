@@ -17,9 +17,9 @@ function App() {
         <div id="services" style={{ paddingTop: "80px" }}>
           <Services />
         </div>
-        <div id="testimonial" style={{ paddingTop: "80px" }}>
+        {/* <div id="testimonial" style={{ paddingTop: "80px" }}>
           <Testimonial />
-        </div>
+        </div> */}
         {/* <Switch>
           <Route path="/" exact component={Hero} />
           <Route path="/services" component={Services} />
